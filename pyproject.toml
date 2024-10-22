@@ -1,0 +1,30 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "scene"
+version = "0.0.1"
+dependencies = [
+  "pyglm",
+  "moderngl",
+  "moderngl_window",
+  "pillow",
+  "wavefront",
+]
+authors = [
+  { name="Nikita Smirnov", email="n.smirnov1572@gmail.com" }
+]
+description = "Scene renderer for .obj files"
+requires-python = ">=3.8"
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent",
+]
+
+[tool.setuptools.packages.find]
+where = ["scene"]
+
+[tool.setuptools.package-data]
+resources = ["*.glsl"]
