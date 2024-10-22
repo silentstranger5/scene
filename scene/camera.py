@@ -61,18 +61,27 @@ class Camera:
 
 
 class KeyboardCamera(Camera):
-    def __init__(self, *args, **kwargs):
+    def __init__(
+        self,
+        eye: glm.vec3 = glm.vec3(0, 0, 5),
+        direction: glm.vec3 = glm.vec3(0, 0, -1),
+        target: glm.vec3 = glm.vec3(0, 0, 4),
+        up: glm.vec3 = glm.vec3(0, 1, 0),
+        yaw: float = -90,
+        pitch: float = 0,
+        *args, **kwargs
+    ):
         super().__init__(*args, **kwargs)
-        self.eye: glm.vec3 = glm.vec3(0, 0, 5)
-        self.direction: glm.vec3 = glm.vec3(0, 0, -1)
-        self.front: glm.vec3 = self.direction
-        self.target: glm.vec3 = self.eye + self.direction
-        self.up: glm.vec3 = glm.vec3(0, 1, 0)
+        self.eye: glm.vec3 = eye
+        self.direction: glm.vec3 = direction
+        self.front: glm.vec3 = direction
+        self.target: glm.vec3 = target
+        self.up: glm.vec3 = up
         self.view: glm.mat4 = glm.lookAt(
             self.eye, self.target, self.up,
         )
-        self.yaw: float = -90
-        self.pitch: float = 0
+        self.yaw: float = yaw
+        self.pitch: float = pitch
 
     def mouse_position_event(self, x, y, dx, dy):
         if self.enabled:
@@ -137,6 +146,7 @@ class OrbitCamera(Camera):
 
     def update(self, frametime: float):
         self.move(frametime)
+        self.target = glm.vec3(0, self.height, 0)
         self.view = glm.lookAt(
             self.eye, self.target, self.up,
         )
@@ -167,4 +177,3 @@ class OrbitCamera(Camera):
             self.radius * cos(self.theta), self.height,
             self.radius * sin(self.theta)
         )
-        self.target = glm.vec3(0, self.height, 0)
